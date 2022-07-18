@@ -132,13 +132,13 @@ public class QueryMonitorTask implements Callable<QueryMetrics> {
 	private String getJsonResponseString(SimpleHttpClient httpClient, String index, String data) throws Exception {
 		Response response = null;
 		try {
-			long myMilliseconds = System.currentTimeMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            Date rsDate = new Date(myMilliseconds);
-            int thisHours = rsDate.getHours();
-            int thisMinutes = rsDate.getMinutes();
-            if (thisHours > 7 || (thisHours == 7 && thisMinutes >= 30))
-                index += "_" + sdf.format(rsDate);
+      long myMilliseconds = System.currentTimeMillis();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+      Date rsDate = new Date(myMilliseconds);
+      int thisHours = rsDate.getHours();
+      int thisMinutes = rsDate.getMinutes();
+      if (thisHours > 7 || (thisHours == 7 && thisMinutes >= 30))
+        index = index + "_" + sdf.format(rsDate); 
 			response = httpClient.target().path(index).path(SEARCH_JSON_URI).header("Content-Type","application/json").post(data);
 			return response.string();
 		} catch (Exception e) {
